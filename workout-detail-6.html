@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FitFlow - Тренировка 6</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'app-bg': '#cfc7b8',
+              'card-bg': '#fefdfb',
+              'dark-charcoal': '#232220',
+              'text-secondary': '#6B7280',
+              'accent-purple': '#f0c7ff',
+              'accent-green': '#e7fcbb',
+              'accent-beige': '#d5cdbe',
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '2.5rem',
+            },
+          },
+        },
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-app-bg">
+
+    <div id="app" class="max-w-2xl mx-auto pb-28">
+        <!-- Видеоплеер -->
+        <div class="relative bg-black">
+            <video
+              id="workout-video"
+              class="w-full h-auto max-h-[70vh] object-contain"
+              controls
+              playsInline
+              
+              muted
+            >
+              <!-- Источник видео будет добавлен через JS -->
+            </video>
+            <a href="/trening.html" class="absolute top-6 left-6 bg-white/80 p-3 rounded-full shadow-md z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-dark-charcoal" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Информация о тренировке -->
+        <div class="p-6 space-y-6">
+            <div id="workout-info" class="bg-card-bg rounded-4xl shadow-xl p-6">
+                <!-- Заголовок и детали будут вставлены сюда -->
+            </div>
+
+            <!-- Список упражнений -->
+            <div class="bg-card-bg rounded-4xl shadow-xl p-6">
+                <h2 class="text-2xl font-bold text-dark-charcoal mb-4">Упражнения</h2>
+                <div id="exercises-list" class="space-y-2">
+                    <!-- Упражнения будут вставлены сюда -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижнее меню -->
+    <footer class="fixed bottom-0 left-0 right-0 max-w-2xl mx-auto bg-white/80 backdrop-blur-sm shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.1)] rounded-t-4xl">
+        <div class="flex justify-around items-center h-20">
+            <a href="/main.html" class="flex flex-col items-center gap-1 text-purple-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.71,2.29a1,1,0,0,0-1.42,0l-9,9a1,1,0,0,0,0,1.42A1,1,0,0,0,3,13H4v7a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1V16a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1v4a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V13h1a1,1,0,0,0,.71-1.71Z"/>
+                </svg>
+                <span class="text-xs font-bold">На главную</span>
+            </a>
+            <a href="/profile.html" class="flex flex-col items-center gap-1 text-text-secondary hover:text-dark-charcoal transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="text-xs font-semibold">Профиль</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        const workout = { id: 6, title: 'Тренировка 6', trainer: 'Natali', duration: 35, exercisesCount: 5, category: 'Lower body', image: 'https://images.pexels.com/photos/3838031/pexels-photo-3838031.jpeg?auto=compress&cs=tinysrgb&w=600', trainerImage: 'https://picsum.photos/seed/trainer_natali/100/100', color: 'blue', videoUrl: 'https://videos.pexels.com/video-files/4753996/4753996-sd_540_960_25fps.mp4', exercises: [ { name: 'Приседания с резинкой', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e1/200/200', timestamp: 0 }, { name: 'Боковые выпады', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e2/200/200', timestamp: 25 }, { name: 'Обратные выпады', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e3/200/200', timestamp: 50 }, { name: 'Отведение ноги с резинкой', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e4/200/200', timestamp: 75 }, { name: 'Сгибание ноги с резинкой', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e5/200/200', timestamp: 100 }, ], equipment: [{ name: 'Resistance Band', image: '🎗️' }], };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!workout) {
+                document.getElementById('app').innerHTML = '<p class="text-center text-red-500">Тренировка не найдена!</p>';
+                return;
+            }
+
+            const videoEl = document.getElementById('workout-video');
+            const workoutInfoContainer = document.getElementById('workout-info');
+            const exercisesListContainer = document.getElementById('exercises-list');
+            let currentExerciseIndex = -1;
+
+            document.title = `FitFlow - ${workout.title}`;
+            videoEl.innerHTML = `<source src="${workout.videoUrl}" type="video/mp4" />Ваш браузер не поддерживает видео.`;
+            
+            workoutInfoContainer.innerHTML = `
+                <h1 class="text-3xl font-bold text-dark-charcoal">${workout.title}</h1>
+                <p class="text-text-secondary mt-2 font-medium">
+                    ${workout.duration} мин &bull; ${workout.exercisesCount} упр.
+                </p>
+            `;
+
+            workout.exercises.forEach((ex, index) => {
+                const exerciseItem = document.createElement('div');
+                exerciseItem.className = 'exercise-item flex items-center space-x-4 p-4 rounded-2xl cursor-pointer transition-colors duration-300 hover:bg-gray-50';
+                exerciseItem.dataset.index = index;
+                exerciseItem.dataset.timestamp = ex.timestamp;
+
+                exerciseItem.innerHTML = `
+                    <img src="${ex.thumbnail}" alt="${ex.name}" class="w-16 h-16 rounded-lg object-cover" />
+                    <div class="flex-grow">
+                        <p class="font-bold text-dark-charcoal">${ex.name}</p>
+                        <p class="text-text-secondary">${ex.duration}</p>
+                    </div>
+                    <div class="exercise-number text-2xl font-bold text-gray-300 transition-colors">
+                        ${String(index + 1).padStart(2, '0')}
+                    </div>
+                `;
+                
+                exerciseItem.addEventListener('click', () => {
+                    if (ex.timestamp !== undefined) {
+                        videoEl.currentTime = ex.timestamp;
+                        if (videoEl.paused) {
+                            videoEl.play();
+                        }
+                    }
+                });
+
+                exercisesListContainer.appendChild(exerciseItem);
+            });
+
+            const exerciseItems = document.querySelectorAll('.exercise-item');
+
+            const updateActiveExercise = (newIndex) => {
+                if (newIndex === currentExerciseIndex) return;
+
+                if (currentExerciseIndex !== -1) {
+                    const prevItem = exerciseItems[currentExerciseIndex];
+                    if (prevItem) {
+                        prevItem.classList.remove('bg-accent-beige');
+                        prevItem.querySelector('.exercise-number').classList.remove('text-orange-400');
+                        prevItem.querySelector('.exercise-number').classList.add('text-gray-300');
+                    }
+                }
+
+                const currentItem = exerciseItems[newIndex];
+                if (currentItem) {
+                    currentItem.classList.add('bg-accent-beige');
+                    currentItem.querySelector('.exercise-number').classList.add('text-orange-400');
+                    currentItem.querySelector('.exercise-number').classList.remove('text-gray-300');
+                }
+                
+                currentExerciseIndex = newIndex;
+            };
+
+            videoEl.addEventListener('timeupdate', () => {
+                const currentTime = videoEl.currentTime;
+                let newIndex = -1;
+
+                for (let i = workout.exercises.length - 1; i >= 0; i--) {
+                    const ex = workout.exercises[i];
+                    if (ex.timestamp !== undefined && ex.timestamp <= currentTime) {
+                        newIndex = i;
+                        break;
+                    }
+                }
+
+                if (newIndex !== -1) {
+                    updateActiveExercise(newIndex);
+                }
+            });
+
+            updateActiveExercise(0);
+        });
+    </script>
+
+</body>
+</html>
