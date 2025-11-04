@@ -33,23 +33,15 @@
 
     <div id="app" class="max-w-2xl mx-auto pb-28">
         <!-- Видеоплеер -->
-        <div class="relative bg-black">
-            <video
-              id="workout-video"
-              class="w-full h-auto max-h-[70vh] object-contain"
-              controls
-              playsInline
-              
-              muted
-            >
-              <!-- Источник видео будет добавлен через JS -->
-            </video>
-            <a href="/trening.html" class="absolute top-6 left-6 bg-white/80 p-3 rounded-full shadow-md z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-dark-charcoal" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-            </a>
-        </div>
+        <div class="bg-card-bg rounded-4xl shadow-xl p-6">
+                
+                <div class="relative bg-black/80 aspect-[9/16] mt-4 rounded-2xl overflow-hidden">
+                    <video class="w-full h-full" controls playsinline>
+                        <source src="https://file-storage.bothelp.io/myuppy/55/55e0/55e07f0dc02c9f4299a4c0890998387b/%D1%8F%D0%B3%D0%BE%D0%B4%D0%B8%D1%86%D1%8B%20%D1%82%D1%80%D0%B5%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B06.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                </div>
+            </div>
 
         <!-- Информация о тренировке -->
         <div class="p-6 space-y-6">
@@ -86,100 +78,60 @@
     </footer>
 
     <script>
-        const workout = { id: 6, title: 'Тренировка 6', trainer: 'Natali', duration: 35, exercisesCount: 5, category: 'Lower body', image: 'https://images.pexels.com/photos/3838031/pexels-photo-3838031.jpeg?auto=compress&cs=tinysrgb&w=600', trainerImage: 'https://picsum.photos/seed/trainer_natali/100/100', color: 'blue', videoUrl: 'https://videos.pexels.com/video-files/4753996/4753996-sd_540_960_25fps.mp4', exercises: [ { name: 'Приседания с резинкой', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e1/200/200', timestamp: 0 }, { name: 'Боковые выпады', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e2/200/200', timestamp: 25 }, { name: 'Обратные выпады', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e3/200/200', timestamp: 50 }, { name: 'Отведение ноги с резинкой', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e4/200/200', timestamp: 75 }, { name: 'Сгибание ноги с резинкой', duration: '3 подхода', thumbnail: 'https://picsum.photos/seed/w6e5/200/200', timestamp: 100 }, ], equipment: [{ name: 'Resistance Band', image: '🎗️' }], };
+        // Данные, перенесенные из constants.ts
+        const workout = { 
+            id: 6,
+            title: 'Тренировка 6', 
+            category: 'Ягодицы', 
+            color: 'purple',
+            exercises: [ 
+                { name: 'Приседания с резинкой' }, 
+                { name: 'Боковые выпады' }, 
+                { name: 'Обратные выпады' }, 
+                { name: 'Отведение ноги с резинкой' },
+                { name: 'Сгибание ноги с резинкой' }
+            ] 
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Данные о тренировке уже определены в константе 'workout'
+
             if (!workout) {
                 document.getElementById('app').innerHTML = '<p class="text-center text-red-500">Тренировка не найдена!</p>';
                 return;
             }
 
-            const videoEl = document.getElementById('workout-video');
             const workoutInfoContainer = document.getElementById('workout-info');
             const exercisesListContainer = document.getElementById('exercises-list');
             let currentExerciseIndex = -1;
 
+            // 1. Заполняем данными страницу
             document.title = `FitFlow - ${workout.title}`;
-            videoEl.innerHTML = `<source src="${workout.videoUrl}" type="video/mp4" />Ваш браузер не поддерживает видео.`;
             
             workoutInfoContainer.innerHTML = `
                 <h1 class="text-3xl font-bold text-dark-charcoal">${workout.title}</h1>
                 <p class="text-text-secondary mt-2 font-medium">
-                    ${workout.duration} мин &bull; ${workout.exercisesCount} упр.
+                    ${workout.exercises.length} упр.
                 </p>
             `;
 
+            // 2. Генерируем список упражнений
             workout.exercises.forEach((ex, index) => {
                 const exerciseItem = document.createElement('div');
                 exerciseItem.className = 'exercise-item flex items-center space-x-4 p-4 rounded-2xl cursor-pointer transition-colors duration-300 hover:bg-gray-50';
-                exerciseItem.dataset.index = index;
-                exerciseItem.dataset.timestamp = ex.timestamp;
 
                 exerciseItem.innerHTML = `
-                    <img src="${ex.thumbnail}" alt="${ex.name}" class="w-16 h-16 rounded-lg object-cover" />
                     <div class="flex-grow">
                         <p class="font-bold text-dark-charcoal">${ex.name}</p>
-                        <p class="text-text-secondary">${ex.duration}</p>
+                        ${ex.duration ? `<p class="text-text-secondary">${ex.duration}</p>` : ''}
                     </div>
                     <div class="exercise-number text-2xl font-bold text-gray-300 transition-colors">
                         ${String(index + 1).padStart(2, '0')}
                     </div>
                 `;
                 
-                exerciseItem.addEventListener('click', () => {
-                    if (ex.timestamp !== undefined) {
-                        videoEl.currentTime = ex.timestamp;
-                        if (videoEl.paused) {
-                            videoEl.play();
-                        }
-                    }
-                });
-
                 exercisesListContainer.appendChild(exerciseItem);
             });
-
-            const exerciseItems = document.querySelectorAll('.exercise-item');
-
-            const updateActiveExercise = (newIndex) => {
-                if (newIndex === currentExerciseIndex) return;
-
-                if (currentExerciseIndex !== -1) {
-                    const prevItem = exerciseItems[currentExerciseIndex];
-                    if (prevItem) {
-                        prevItem.classList.remove('bg-accent-beige');
-                        prevItem.querySelector('.exercise-number').classList.remove('text-orange-400');
-                        prevItem.querySelector('.exercise-number').classList.add('text-gray-300');
-                    }
-                }
-
-                const currentItem = exerciseItems[newIndex];
-                if (currentItem) {
-                    currentItem.classList.add('bg-accent-beige');
-                    currentItem.querySelector('.exercise-number').classList.add('text-orange-400');
-                    currentItem.querySelector('.exercise-number').classList.remove('text-gray-300');
-                }
-                
-                currentExerciseIndex = newIndex;
-            };
-
-            videoEl.addEventListener('timeupdate', () => {
-                const currentTime = videoEl.currentTime;
-                let newIndex = -1;
-
-                for (let i = workout.exercises.length - 1; i >= 0; i--) {
-                    const ex = workout.exercises[i];
-                    if (ex.timestamp !== undefined && ex.timestamp <= currentTime) {
-                        newIndex = i;
-                        break;
-                    }
-                }
-
-                if (newIndex !== -1) {
-                    updateActiveExercise(newIndex);
-                }
-            });
-
-            updateActiveExercise(0);
         });
     </script>
 
